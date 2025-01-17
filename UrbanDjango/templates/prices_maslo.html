@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Цены</title>
+</head>
+<body>
+    <h2>Цены на сыродавленное масло MasloDzen:</h2>
+    <ul>
+        {% for i in pr %}
+            <li> {{ i }}  <button>купить</button></li>
+        {% endfor %}
+    </ul>
+    <p><a href="/maslo/"><button>Вернуться обратно</button></a></p>
+</body>
+</html>
