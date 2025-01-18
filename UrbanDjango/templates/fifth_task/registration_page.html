@@ -7,39 +7,39 @@
 <body>
     <form method="post">
         {% csrf_token %}
+
         <p>
-            <label for='id_username'> Введите логин:</label>
-        <input type="text" id="id_username" name="username" maxlength="100"
+            <label for='username'> Введите логин:</label>
+        <input type="text" id="username" name="username" maxlength="100"
             {% if username %} value in {{ users }}
                 <p>Пользователь уже существует</p>
             {% endif %}
             required>
         </p>
         <p>
-            <label for='id_password'> Введите пароль:</label>
-            <input type="text" id="id_password" name="password" minlength="8"
+            <label for='password'> Введите пароль:</label>
+            <input type="text" id="password" name="password" minlength="8"
             {% if password != repeat_password %}
                 <p>Пароли не совпадают</p>
             {% endif %}
             required>
         </p>
         <p>
-            <label for='id_repeat_password'> Повторите пароль:</label>
-            <input type="text" id="id_repeat_password" name="repeat_password" minlength="8"
+            <label for='repeat_password'> Повторите пароль:</label>
+            <input type="text" id="repeat_password" name="repeat_password" minlength="8"
             {% if password != repeat_password %}
                 <p>Пароли не совпадают</p>
             {% endif %}
             required>
         </p>
         <p>
-            <label for='id_age'> Введите свой возраст:</label>
-            <input type="number" id="id_age" name="age" maxlength="3"
+            <label for='age'> Введите свой возраст:</label>
+            <input type="number" id="age" name="age" maxlength="3"
             {% if age < 18 %}
                 <p>Вы должны быть старше 18 лет</p>
             {% endif %}
             required>
         </p>
-
         <button type="submit">Регистрация</button>
     </form>
 </body>

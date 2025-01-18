@@ -3,14 +3,12 @@ from .forms import UserRegister
 from django.http import HttpResponse
 
 
+
 users = ['Lada', 'Nik', 'Varvara']
-
-info = {}
-
-context = {'users': users, 'info': info}
 
 # Create your views here.
 def sign_up_by_django(request):
+    info = {}
     if request.method =='POST':
         form = UserRegister(request.POST)
         if form.is_valid():
@@ -19,41 +17,55 @@ def sign_up_by_django(request):
             repeat_password = form.cleaned_data['repeat_password']
             age = form.cleaned_data['age']
 
-            if password == repeat_password and age >= 18 and username is not users:
-                print(f'Приветствуем, {username}!')
-
-            else:
-                if password != repeat_password:
-                    info['error']='Пароли не совпадают'
-                elif age < 18:
-                    info['error'] = 'Вы должны быть старше 18'
-                elif username is users:
-                    info['error'] = 'Пользователь уже существует'
+            if password == repeat_password and age >= 18 and username not in users:
+                users.append(username)
+                print(users)
+                return HttpResponse(f'Приветствуем, {username}!')
+            elif password != repeat_password:
+                info['error']='Пароли не совпадают'
+                print(info)
+                return HttpResponse(f'Пароли не совпадают')
+            elif age < 18:
+                info['error'] = 'Вы должны быть старше 18'
+                print(info)
+                return HttpResponse(f'Вы должны быть старше 18')
+            elif username in users:
+                info['error'] = 'Пользователь уже существует'
+                print(info)
+                return HttpResponse(f'Пользователь уже существует')
     else:
-            form = UserRegister()
-    return render(request, 'fifth_task/registration_page.html', context)
+        form = UserRegister()
+        context = {'info': info, 'form': form}
+        return render(request, 'fifth_task/registration_page.html', context)
 
 def sign_up_by_html(request):
-
+    info = {}
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
         repeat_password = request.POST.get('repeat_password')
         age = int(request.POST.get('age'))
 
-        if password == repeat_password and age >= 18 and username is not users:
-            print(f'Приветствуем, {username}!')
+        print(f'Пользователь: {username}')
+        print(f'Пароль: {password}')
+        print(f'Повтор пароля: {repeat_password}')
+        print(f'Возвраст: {age}')
 
-        else:
-            if password != repeat_password:
-                info['error'] = 'Пароли не совпадают'
-            elif age < 18:
-                info['error'] = 'Вы должны быть старше 18'
-            elif username is users:
-                info['error'] = 'Пользователь уже существует'
-
-    else:
-        form = UserRegister()
-
-    return render(request, 'fifth_task/registration_page.html', context)
+        if password == repeat_password and age >= 18 and username not in users:
+            users.append(username)
+            print(users)
+            return HttpResponse(f'Приветствуем, {username}!')
+        elif password != repeat_password:
+            info['error'] = 'Пароли не совпадают'
+            print(info)
+            return HttpResponse(f'Пароли не совпадают')
+        elif age < 18:
+            info['error'] = 'Вы должны быть старше 18'
+            print(info)
+            return HttpResponse(f'Вы должны быть старше 18')
+        elif username in users:
+            info['error'] = 'Пользователь уже существует'
+            print(info)
+            return HttpResponse(f'Пользователь уже существует')
+    return render(request, 'fifth_task/registration_page.html', info)
 
